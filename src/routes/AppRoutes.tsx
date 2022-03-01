@@ -4,6 +4,8 @@ import PageTwo from "../pages/PageTwo";
 import Home from "../pages/home/Home";
 import NotFound from "../pages/NotFound";
 import { Routes, Route } from "react-router-dom";
+import Login from "../pages/login/Login";
+import Register from "../pages/register/Register";
 
 function AppRoutes() {
     return (
@@ -11,6 +13,8 @@ function AppRoutes() {
             <Route path="/" element={<Home />} />
             <Route path="/pageone" element={<PageOne />} />
             <Route path="/pagetwo" element={<PageTwo />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
     );

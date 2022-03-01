@@ -1,15 +1,22 @@
 import { Box } from "@mui/material";
 import React from "react";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import Login from "../../pages/login/Login";
-import Register from "../../pages/register/Register";
+import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 
-function RequireAuth() {
+interface RequireAuthProps {
+    children: React.ReactNode;
+}
+
+function RequireAuth({ children }: RequireAuthProps) {
+    const { data: user } = useQuery("user", () => undefined, { staleTime: Infinity });
     const navigate = useNavigate();
 
     React.useEffect(() => {
-        navigate("/login");
-    }, []);
+        if (!user) return navigate("/login");
+    }, [user]);
+
+    console.log("user: ", user);
+    console.log("login");
 
     return (
         <Box
@@ -22,11 +29,7 @@ function RequireAuth() {
                 backgroundColor: (theme) => theme.palette.primary.main,
             }}
         >
-            <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-            </Routes>
+            {children}
         </Box>
     );
 }

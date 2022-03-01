@@ -19,8 +19,9 @@ import { MainListItems } from "./ListItems";
 import { Button, useTheme } from "@mui/material";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import { ColorModeContext } from "./ColorModeContext";
-import { useQueryClient } from "react-query";
+import { AppContext } from "./AppContext";
+import { useQuery, useQueryClient } from "react-query";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Copyright(props: any) {
     return (
@@ -89,10 +90,10 @@ interface AppContainerProps {
 
 function AppContainer({ children }: AppContainerProps) {
     const queryClient = useQueryClient();
-    const { toggleColorMode } = React.useContext(ColorModeContext);
+    const theme = useTheme();
+    const { toggleColorMode } = React.useContext(AppContext);
     const [open, setOpen] = React.useState(false);
 
-    const theme = useTheme();
     const toggleDrawer = () => {
         setOpen(!open);
     };
@@ -101,6 +102,8 @@ function AppContainer({ children }: AppContainerProps) {
         console.log("logout");
         queryClient.setQueryData("user", undefined);
     };
+
+    console.log("app container");
 
     return (
         <Box sx={{ display: "flex" }}>

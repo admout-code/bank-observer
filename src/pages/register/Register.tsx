@@ -3,6 +3,8 @@ import { Button, Container, Grid, Paper, TextField, Typography } from "@mui/mate
 import { SubmitHandler, useForm } from "react-hook-form";
 import { login } from "../../services/login";
 import { useQueryClient } from "react-query";
+import { Navigate } from "react-router-dom";
+import { AppContext } from "../../components/app-container/AppContext";
 
 interface Inputs {
     email: string;
@@ -16,11 +18,14 @@ function Login() {
         formState: { errors },
     } = useForm<Inputs>();
     const queryClient = useQueryClient();
+    const { user } = React.useContext(AppContext);
 
     const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
         queryClient.setQueryData("user", data);
         console.log("submit");
     };
+
+    if (user) return <Navigate to="/" />;
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, Button, Checkbox, Container, Grid, Link, Paper, TextField, Typography } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { login } from "../../services/login";
 import { useQueryClient } from "react-query";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink, Navigate, useNavigate } from "react-router-dom";
+import { AppContext } from "../../components/app-container/AppContext";
 
 interface Inputs {
     email: string;
@@ -16,9 +17,10 @@ function Login() {
         register,
         formState: { errors },
     } = useForm<Inputs>();
+    const { user } = useContext(AppContext);
     const [remember, setRemember] = React.useState(false);
     const queryClient = useQueryClient();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
         // const res = await login(data);
@@ -30,6 +32,8 @@ function Login() {
         navigate("/");
         console.log("submit");
     };
+
+    if (user) return <Navigate to="/" />;
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

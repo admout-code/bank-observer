@@ -1,16 +1,14 @@
 import axios from "axios";
 
-export const logout = (data: any) => {
-    try {
-        const res = axios({
-            method: "post",
-            url: "https://627b-2a02-587-2010-382a-857b-4ee5-bf6b-a5d1.ngrok.io/logout",
-            data: data,
-        });
+const { REACT_APP_APP_BASE_URL } = process.env;
 
-        return res;
-    } catch (err) {
-        console.log(err);
-        // return err;
-    }
+export const logout = (data: any) => {
+    const res = axios
+        .post(`${REACT_APP_APP_BASE_URL}/login`, data)
+        .then((res) => res.data)
+        .catch((err) => {
+            console.log("error: ", err);
+            return "Error";
+        });
+    return res;
 };
